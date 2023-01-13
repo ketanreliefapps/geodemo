@@ -1,10 +1,18 @@
 import 'reflect-metadata';
+import { GraphQLSchema } from 'graphql';
 import { ApolloServer } from 'apollo-server-express';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import express from 'express';
 import { connection } from './connection';
-import resolvers from "./resolvers/user";
-import typeDefs from "./type/user.type";
+import Query from './query';
+import Mutation from './mutation';
+
+
+const schema = new GraphQLSchema({
+    query: Query,
+    mutation: Mutation
+  });
+  
 
 const startServer = async () => {
     connection();
@@ -12,8 +20,7 @@ const startServer = async () => {
     const app = express()
     
     const apolloServer = new ApolloServer({
-        typeDefs, 
-        resolvers,
+        schema,
         plugins: [ApolloServerPluginLandingPageGraphQLPlayground()]
     })
     await apolloServer.start();

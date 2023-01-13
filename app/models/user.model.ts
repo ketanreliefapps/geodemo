@@ -5,7 +5,7 @@ export interface User extends Document {
     name: string;
     location: {
       type: string,
-      coordinates: [number],
+      coordinates: any,
     }
 }
 
@@ -15,11 +15,11 @@ const UserSchema: Schema = new Schema({
     location: {
       type: {
         type: String, // Don't do `{ location: { type: String } }`
-        enum: ['Point'], // 'location.type' must be 'Point'
+        enum: ['Point', 'LineString', 'Polygon'], // 'location.type' must be 'Point'
         required: true
       },
       coordinates: {
-        type: [Number],
+        type: mongoose.Schema.Types.Mixed,
         required: true
       }
     }

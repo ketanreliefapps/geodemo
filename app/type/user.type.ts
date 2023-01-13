@@ -1,38 +1,20 @@
-import { gql } from "apollo-server";
+import { GraphQLID, GraphQLObjectType, GraphQLString } from "graphql";
+import GraphQLJSON from "graphql-type-json";
+import { GeoEnumType } from "../const/enumType";
 
-const typeDefs = gql`
-    type Location {
-        type: String
-        coordinates: [Float]
-    }
-    type User {
-        id: String
-        email: String
-        name: String
-        location: Location
-    }
-    type common {
-        status: Boolean
-    }
-
-    input LocationInput {
-        type: String
-        coordinates: [Float]
-    }
-    input UserInput {
-        email: String
-        name: String
-        location: LocationInput
-    }
-
-    type Query {
-        users: [User]
-        user(id:String): User
-    }
-    type Mutation {
-        addUser(user: UserInput): common
-        editUser(id:String, user: UserInput): common
-    }
-`;
-
-export default typeDefs;
+/** GraphQL dashboard type definition */
+export const UserType = new GraphQLObjectType({
+  name: 'User',
+  fields: () => ({
+    id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    email: { type: GraphQLString },
+    location: { type: new GraphQLObjectType({
+      name: 'Location',
+      fields: () => ({
+        type: { type: GeoEnumType },
+        coordinates: { type: GraphQLJSON }
+      }),
+    })}
+  }),
+});
