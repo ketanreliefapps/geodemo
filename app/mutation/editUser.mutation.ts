@@ -1,4 +1,4 @@
-import { GraphQLNonNull, GraphQLString, GraphQLInputObjectType } from 'graphql';
+import { GraphQLNonNull, GraphQLString } from 'graphql';
 import User from '../models/user.model';
 import { UserType, LocationType } from '../type';
 
