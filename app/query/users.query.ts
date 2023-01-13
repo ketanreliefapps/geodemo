@@ -11,15 +11,28 @@ export default {
           location:
             { $near:
                {
-                 $geometry: { type: "Point",  coordinates: [-0.349588, 51.350987 ] }, //first parameter is longitude and secodn is latitude
+                 $geometry: { type: "Point",  coordinates: [2.336477, 48.836092 ] }, //first parameter is longitude and secodn is latitude
                  $maxDistance: 1000
                }
             }
         }
     ) */
-    const userList = await User.find( { loc: { $geoWithin: { $centerSphere: [ [ 40, 5 ] ,
-      100 / 3963.2 ] } } } )
-    return userList;
+    const userList = await User.find(
+      {
+        location: {
+          $geoIntersects: {
+             $geometry: {
+                type: "Polygon" ,
+                coordinates: [
+                  [ [ 0, 0 ], [ 3, 6 ], [ 6, 2 ], [ 0, 0 ] ]
+                ]
+             }
+          }
+        }
+      }
+   )
+
+   return userList;
   },
 };
 
